@@ -79,14 +79,11 @@ Access [iplass site](https://iplass.org/downloads/) and download iplass installe
 Set **iplass.war** into `iplass-build/iplass` dir
 
 ##### Connector/J
+Access [MySQL site](https://dev.mysql.com/downloads/connector/j/) and download Connector/J for RHEL
 
-Run following command
-```
-$ sudo yum -y install mysql-connector-java
-$ cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/ 
-```
+Set **mysql-connector-java-XXXXXXXXX.noarch.rpm** into `iplass-build/jdbc` dir
 
-**1,Execute command "sh docker-start.sh"**
+**1,Execute command** `sh docker-start.sh [jdbc file name]`
 
 **2,Access "http://[your server IP]/iplass"**
 
@@ -96,7 +93,7 @@ $ cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/
 - DBA Password                   :[root password]
 - Binary data file store location:/opt/iplass/upload
 - Host Name                      :localhost
-- User Name                      :iplass_user
+- User Name                      :[your iplass DBuser] (ex.iplass_user)
 - Password                       :[your password]
 - Tenant Name                    :[your tenant name] (ex. test_tenant)
 - Administrator User ID          :[your user name] (ex. admin@test_tenant)
