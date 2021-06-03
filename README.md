@@ -2,12 +2,13 @@
 
 ## Over view
 This module is for building the environment of ipalss at high speed.
-For more information about iplass, please refer to : https://iplass.org/
+For more information about iplass, please refer to [iplass-site](https://iplass.org/)
 
 Create iPLAss Environment on Docker image(CentOS)
-Running command on CentOS is Litted on "iplass-build/dockerfile"
+Running command on CentOS is Litted on `iplass-build/dockerfile`
 
 This environment is used the following
+- OS : CentOS8 : latest version
 - Apache Httpd : latest version
 - Apache Tomcat : 9.0.22
 - Java : 1.8.0
@@ -17,38 +18,39 @@ This environment is used the following
 ## Note
 
 ### AJP
-apache httpd config file : iplass-build/apache
+apache httpd config file : `iplass-build/apache`
 
-AJP Path : /iplass/ and /iplass
+AJP Path : `/iplass/ and /iplass`
 
 ### iPLAss Config
-iPLAss config file : iplass-conf/iplass-service-config.xml
-                      iplass-conf/logback.xml
+iPLAss config file : `iplass-conf/iplass-service-config.xml`
+                      `iplass-conf/logback.xml`
 
-iPLAss logs : in docker container path "/opt/iplass/logs"
+iPLAss logs : in docker container path `/opt/iplass/logs`
 
 ### DB Time Zone
-Mysql config : iplass-build/mysql/my.cnf
+Mysql config : `iplass-build/mysql/my.cnf`
 
-Default Time Zone : '+9:00'
+Default Time Zone : `+9:00`
 
 ### Container Initial Script 
-Container initial script :  iplass-build/container-start.sh
+Container initial script :  `iplass-build/container-start.sh`
 
 ### Use Mail on iPLAss
 In this environment, iPLAss Mail use postfix on the docker container.
 
 1, Edit /home/tomcat/.iplass/iplass-service-config.xml "the org.iplass.mtp.impl.mail.MailServiceImpl"
- 　<property name="mail.smtp.host" value="XXXXXXXX"/>  ->  <property name="mail.smtp.host" value="localhost"/>
-　 <property name="mail.host" value="XXXXXXXX"/>  ->  <property name="mail.host" value="localhost"/>
-2, Login iPLAss and open "Admin Console"
-3, In "tenant" property, edit "Mail Sending Settings"  
+ 　`<property name="mail.smtp.host" value="XXXXXXXX"/>`  ->  `<property name="mail.smtp.host" value="localhost"/>`
+　 `<property name="mail.host" value="XXXXXXXX"/>`  ->  `<property name="mail.host" value="localhost"/>`
+2, Login iPLAss and open **Admin Console**
+3, In **tenant** property, edit **Mail Sending Settings**
 
 ## Usage
 **0,Setting module**
 ##### iplass 
-Access iplass site and download iplass installer : https://iplass.org/downloads/
-Set "iplass.war" into "iplass-build/iplass" dir
+Access [iplass site](https://iplass.org/downloads/) and download iplass installer
+
+Set **iplass.war** into `iplass-build/iplass` dir
 
 ##### Connector/J
 
@@ -89,4 +91,4 @@ cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/
 
 ## License
 
-iPLAss License is "AGPL" (As of June 2021)
+iPLAss License is **AGPL** (As of June 2021)
