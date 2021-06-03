@@ -45,7 +45,7 @@ In this environment, iPLAss Mail use postfix on the docker container.
 3, In "tenant" property, edit "Mail Sending Settings"  
 
 ## Usage
-####0,Setting module
+**0,Setting module**
 ##### iplass 
 Access iplass site and download iplass installer : https://iplass.org/downloads/
 Set "iplass.war" into "iplass-build/iplass" dir
@@ -58,11 +58,11 @@ sudo yum -y install mysql-connector-java
 cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/ 
 ```
 
-####1,Execute command "sh docker-start.sh"
+**1,Execute command "sh docker-start.sh"**
 
-####2,Access "http://[your server IP]/iplass"
+**2,Access "http://[your server IP]/iplass"**
 
-####3,Input parameter
+**3,Input parameter**
 - Database                       :Mysql
 - DBA User Name                  :root
 - DBA Password                   :[root password]
@@ -74,18 +74,18 @@ cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/
 - Administrator User ID          :[your user name] (ex. admin@test_tenant)
 - Administrator Password         :[your password]
 
-####4,[In Docker Container] systemctl restart tomcat  (and wait a few minuits)
+**4,[In Docker Container] systemctl restart tomcat  (and wait a few minuits)**
 
-####5,Access http://[your server IP]/iplass
+**5,Access http://[your server IP]/iplass**
   wait for auto redirection
 
-####6,sh iplass-conf.sh
+**6,sh iplass-conf.sh**
 
-####7,Access http://[your server IP]:8080/iplass/test_tenant/gem/
+**7,Access http://[your server IP]/iplass/[your tenant name]/gem/**
 
-####8,Edit AdminConsole [mail]
+**8,Edit AdminConsole [mail]**
 
-####9,Check Mail and Logs
+**9,Check Mail and Logs**
 
 ## License
 
