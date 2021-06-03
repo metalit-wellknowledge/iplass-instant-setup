@@ -17,6 +17,26 @@ This environment is used the following
 
 ## Note
 
+### MySQL8 initial Error
+Maybe mysql is failing to initialize because of the `ower_case_table_names=1` setting.
+
+In that case, you need to initialize it again by following the steps below.
+
+[In Docker Container]
+```
+# rm -rf /var/lib/mysql
+# mkdir /var/lib/mysql
+# chown mysql:mysql /var/lib/mysql
+# chmod 700 /var/lib/mysql
+# mysqld --defaults-file=/etc/my.cnf --initialize --lower_case_table_names=1 --user=mysql --console
+```
+
+and Mysql root account setting.
+```
+# mysql -u root -p
+> ALTER USER 'root'@'localhost' IDENTIFIED BY '<your password>';
+```
+
 ### AJP
 apache httpd config file : `iplass-build/apache`
 
@@ -59,8 +79,8 @@ Set **iplass.war** into `iplass-build/iplass` dir
 
 Run following command
 ```
-sudo yum -y install mysql-connector-java
-cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/ 
+$ sudo yum -y install mysql-connector-java
+$ cp $(sudo rpm -ql mysql-connector-java | grep jar) iplass-build/jdbc/ 
 ```
 
 **1,Execute command "sh docker-start.sh"**
