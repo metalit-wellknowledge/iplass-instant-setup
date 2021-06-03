@@ -1,0 +1,77 @@
+FROM centos:centos8
+
+MAINTAINER tanaka.hiroki
+
+ARG tomcat_version="9.0.22"
+
+# Server Package install
+RUN dnf -y install rsyslog
+RUN systemctl enable rsyslog
+RUN dnf -y install dos2unix unix2dos
+RUN dnf -y install chrony
+# set timezone for rsyslog
+RUN sed -i -e s'/$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat/#$ActionFileDefaultTemplate\ RSYSLOG_TraditionalFileFormat\nsedChangeFrag/' /etc/rsyslog.conf
+RUN sed -i -e s'/sedChangeFrag/#\ local\ timestamp\ template\nsedChangeFrag/' /etc/rsyslog.conf
+RUN sed -i -e s'/sedChangeFrag/\$template\ LocalTimeTraditionalFileFormat,\"%timegenerated%\ %HOSTNAME%\ %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\\n\"\nsedChangeFrag/' /etc/rsyslog.conf
+RUN sed -i -e s/sedChangeFrag/\$ActionFileDefaultTemplate\ LocalTimeTraditionalFileFormat/ /etc/rsyslog.conf
+
+# Make Dir
+RUN mkdir /opt/iplass
+RUN mkdir /opt/iplass/upload
+RUN mkdir /opt/iplass/conf
+RUN mkdir /opt/iplass/logs
+RUN mkdir /opt/iplass/lib
+
+# JAVA version 1.8.0
+RUN dnf -y install java-1.8.0-openjdk-devel
+COPY java-library/javamail-1.4.7/ /opt/iplass/lib/javamail/
+COPY java-library/jaf-1.1.1 /opt/iplass/lib/jaf/
+
+# Apache
+RUN dnf -y install httpd
+RUN systemctl enable httpd
+COPY apache/proxy-ajp.conf /etc/httpd/conf.d/
+RUN mkdir /var/www/html/iplass_front
+RUN mkdir /var/log/iplass_front
+COPY apache/test.html /var/www/html/iplass_front/
+COPY apache/iplass_front.conf /etc/httpd/conf.d/
+RUN sed -i -e 's/Listen 80/Listen 80\nNameVirtualHost *:80/' /etc/httpd/conf/httpd.conf
+
+# Tomcat version use tomcat_version
+ADD tomcat/apache-tomcat-${tomcat_version}.tar.gz /opt/
+RUN useradd -s /sbin/nologin tomcat
+ADD tomcat/tomcat.service /etc/systemd/system/
+RUN systemctl enable tomcat
+
+# MySQL 8
+RUN dnf remove mysql
+RUN rm -rf /var/lib/mysql/
+RUN dnf -y install mysql-server
+RUN systemctl enable mysqld
+COPY timezone.sql /tmp
+
+# MySQL setting for iPLAss3.0
+RUN rm -f /etc/my.cnf
+COPY mysql/my.cnf /tmp/
+
+# Connector/j
+COPY jdbc/mysql-connector-java-8.0.16.jar /opt/apache-tomcat-${tomcat_version}/lib/
+
+#Postfix
+RUN dnf -y install postfix
+RUN sed -i -e 's/inet_protocols = all/inet_protocols = ipv4/' /etc/postfix/main.cf
+RUN systemctl enable postfix
+
+# iPLAss 3.0
+COPY iplass/iplass.war /opt/apache-tomcat-${tomcat_version}/webapps/
+
+# env
+ENV CLASSPATH /opt/iplass/lib/javamail/mail.jar:/opt/iplass/lib/jaf/activation.jar
+RUN chown -R tomcat:tomcat /opt/*
+COPY container-start.sh /tmp/
+RUN chmod +x /tmp/container-start.sh
+RUN rm -f /etc/rc.d/rc.local
+COPY rc.local /etc/rc.d/
+RUN chmod +x /etc/rc.d/rc.local
+
+EXPOSE 80

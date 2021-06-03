@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+<configuration>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %X{tenant} %X{user} %X{taskId} %logger{36} - %replace(%msg){'\r|\n', ' '}%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE_FATAL" class="ch.qos.logback.core.FileAppender">
+		<file>/opt/iplass/logs/error/app_fatal_error.log</file>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %X{tenant} %X{user} %X{taskId} %logger{36} - %replace(%msg){'\r|\n', ' '}%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE_PER_TENANT_FATAL" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>tenant</key>
+			<defaultValue>unknown</defaultValue>
+		</discriminator>
+		<timeout>10days</timeout>
+		<sift>
+			<appender name="FILE_PER_TENANT-${tenant}"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<encoder>
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %X{tenant} %X{user} %X{taskId} %logger{36} - %replace(%msg){'\r|\n', ' '}%n</pattern>
+				</encoder>
+				<file>/opt/iplass/logs/${tenant}/app_fatal_error.log</file>
+				<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<FileNamePattern>/opt/iplass/logs/${tenant}/app_fatal_error.log.%d{yyyy-MM-dd}
+					</FileNamePattern>
+					<maxHistory>366</maxHistory>
+				</rollingPolicy>
+			</appender>
+		</sift>
+	</appender>
+
+	<appender name="FILE_PER_TENANT_APP" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>tenant</key>
+			<defaultValue>unknown</defaultValue>
+		</discriminator>
+		<timeout>3days</timeout>
+		<sift>
+			<appender name="FILE_PER_TENANT-${tenant}"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<encoder>
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %X{tenant} %X{user} %X{taskId} %logger{36} - %replace(%msg){'\r|\n', ' '}%n</pattern>
+				</encoder>
+				<file>/opt/iplass/logs/${tenant}/app.log</file>
+				<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<FileNamePattern>/opt/iplass/logs/${tenant}/app.log.%d{yyyy-MM-dd}
+					</FileNamePattern>
+					<maxHistory>366</maxHistory>
+				</rollingPolicy>
+			</appender>
+		</sift>
+	</appender>
+	
+	<appender name="FILE_PER_TENANT_AUTH" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>tenant</key>
+			<defaultValue>unknown</defaultValue>
+		</discriminator>
+		<timeout>3days</timeout>
+		<sift>
+			<appender name="FILE_PER_TENANT-${tenant}"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<encoder>
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %X{tenant} %X{user} %X{taskId} %logger{36} - %replace(%msg){'\r|\n', ' '}%n</pattern>
+				</encoder>
+				<file>/opt/iplass/logs/${tenant}/auth.log</file>
+				<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<FileNamePattern>/opt/iplass/logs/${tenant}/auth.log.%d{yyyy-MM-dd}
+					</FileNamePattern>
+					<maxHistory>366</maxHistory>
+				</rollingPolicy>
+			</appender>
+		</sift>
+	</appender>
+	
+	<logger name="mtp.audit" level="INFO">
+		<appender-ref ref="FILE_PER_TENANT_APP" />
+	</logger>
+	<logger name="mtp.auth" level="INFO">
+		<appender-ref ref="FILE_PER_TENANT_AUTH" />
+	</logger>
+	<logger name="mtp.fatal" level="INFO">
+		<appender-ref ref="FILE_PER_TENANT_FATAL" />
+	</logger>
+	<logger name="mtp.fatal.mail" level="INFO">
+		<appender-ref ref="FILE_PER_TENANT_FATAL" />
+	</logger>
+	<logger name="org.iplass" level="INFO">
+		<appender-ref ref="FILE_FATAL" />
+	</logger>
+
+	
+	<root level="OFF" />
+</configuration>
+
