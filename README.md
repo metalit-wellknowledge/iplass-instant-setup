@@ -99,12 +99,12 @@ Set **mysql-connector-java-XXXXXXXXX.noarch.rpm** into `iplass-build/jdbc` dir
 - Administrator User ID          :[your user name] (ex. admin@test_tenant)
 - Administrator Password         :[your password]
 
-**4,[In Docker Container] systemctl restart tomcat  (and wait a few minuits)**
+**4,[In Docker Container]** `systemctl restart tomcat` ** (and wait a few minuits)**
 
 **5,Access http://[your server IP]/iplass**
   wait for auto redirection
 
-**6,sh iplass-conf.sh**
+**6,**`sh iplass-conf.sh`
 
 **7,Access http://[your server IP]/iplass/[your tenant name]/gem/**
 

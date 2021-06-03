@@ -556,7 +556,7 @@
 			<property name="X-Requested-With" value="XMLHttpRequest" />
 		</property>
 		<property name="cors">
-			<property name="allowOrigin" value="https://nocompany.ali3051.foobar.iplass.jp" />
+			<property name="allowOrigin" value="*" />
 			<property name="allowCredentials" value="true" />
 		</property>
 	</service>
