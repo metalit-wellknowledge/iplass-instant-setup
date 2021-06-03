@@ -13,7 +13,8 @@ This environment is used the following
 - Apache Tomcat : 9.0.22
 - Java : 1.8.0
 - MySQL 8 : latest version
-- Connector/j : mysql-connector-java-8.0.16.jar
+- Connector/j : latest version
+- iPlass : latest version
 
 ## Note
 
