@@ -39,9 +39,12 @@ Container initial script :  `iplass-build/container-start.sh`
 ### Use Mail on iPLAss
 In this environment, iPLAss Mail use postfix on the docker container.
 
-1, Edit /home/tomcat/.iplass/iplass-service-config.xml "the org.iplass.mtp.impl.mail.MailServiceImpl"
+1, Edit `/home/tomcat/.iplass/iplass-service-config.xml` **the org.iplass.mtp.impl.mail.MailServiceImpl**
+
  　`<property name="mail.smtp.host" value="XXXXXXXX"/>`  ->  `<property name="mail.smtp.host" value="localhost"/>`
+ 　
 　 `<property name="mail.host" value="XXXXXXXX"/>`  ->  `<property name="mail.host" value="localhost"/>`
+　 
 2, Login iPLAss and open **Admin Console**
 3, In **tenant** property, edit **Mail Sending Settings**
 
