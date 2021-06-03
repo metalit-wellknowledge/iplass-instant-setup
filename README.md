@@ -30,6 +30,8 @@ In that case, you need to initialize it again by following the steps below.
 # chown mysql:mysql /var/lib/mysql
 # chmod 700 /var/lib/mysql
 # mysqld --defaults-file=/etc/my.cnf --initialize --lower_case_table_names=1 --user=mysql --console
+# systemctl enable mysqld
+# systemctl start mysqld
 ```
 
 and Mysql root account setting.
