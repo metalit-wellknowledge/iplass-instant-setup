@@ -551,12 +551,12 @@
 	<service>
 		<interface>org.iplass.mtp.impl.webapi.WebApiService</interface>
 		<property name="enableDefinitionApi" value="true" />
-		<property name="enableBinaryApi" value="false" />
+		<property name="enableBinaryApi" value="true" />
 		<property name="xRequestedWithMap">
 			<property name="X-Requested-With" value="XMLHttpRequest" />
 		</property>
 		<property name="cors">
-			<property name="allowOrigin" value="*" />
+			<property name="allowOrigin" value="0.0.0.0/0" />
 			<property name="allowCredentials" value="true" />
 		</property>
 	</service>
